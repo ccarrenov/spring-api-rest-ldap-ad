@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Service;
 
+import com.ldap.ad.controller.model.Response;
 import com.ldap.ad.util.ActiveDirectoryUtil;
 
 @Service
@@ -20,10 +21,11 @@ public class ActiveDirectoryService {
 	@Value("${ad.domain.name}")
 	private String domainName;
 
-	public ResponseEntity<String> authentication(String userName, String credential) {
+	public ResponseEntity<Response<Object>> authentication(String userName, String credential) {
 
 		ActiveDirectoryUtil ad = new ActiveDirectoryUtil(serverProvider, portProvider, domainComponentOne,
 				domainComponentTwo, domainName);
 		return ad.authorization(userName, credential);
 	}
+	
 }

@@ -13,8 +13,11 @@ import lombok.ToString;
 @ToString
 @AllArgsConstructor
 @NoArgsConstructor
-public class Response {
+public class Response<T> {
 	
 	@JsonProperty("message")	
 	private String message;
+	
+	@JsonProperty("data")	
+	private T data;
 }

@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.ldap.ad.App;
+import com.ldap.ad.controller.model.Response;
 import com.ldap.ad.service.ActiveDirectoryService;
 
 import io.swagger.annotations.Api;
@@ -24,16 +25,17 @@ import io.swagger.annotations.ApiResponses;
 public class ActiveDirectoryController {
 
 	private static final Logger LOGGER = Logger.getLogger(ActiveDirectoryController.class.getName());
-	
+
 	@Autowired
 	private ActiveDirectoryService adService;
 
 	@ApiOperation(value = "authentication", tags = { App.ACTIVE_DIRECTORY })
-	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = String.class),
+	@ApiResponses(value = { @ApiResponse(code = 200, message = "Success", response = Object.class),
 			@ApiResponse(code = 500, message = "Failure") })
 	@GetMapping(value = "authentication/{userName}/{credential}", consumes = {}, produces = {
-			MediaType.TEXT_PLAIN_VALUE })
-	public ResponseEntity<String> authentication(@PathVariable String userName, @PathVariable String credential) {
+			MediaType.APPLICATION_JSON_VALUE, MediaType.TEXT_PLAIN_VALUE })
+	public ResponseEntity<Response<Object>> authentication(@PathVariable String userName,
+			@PathVariable String credential) {
 		LOGGER.info("userName: " + userName);
 		LOGGER.info("credential: " + credential);
 		return adService.authentication(userName, credential);
